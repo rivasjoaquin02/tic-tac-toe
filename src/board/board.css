@@ -1,0 +1,17 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    max-width: 300px;
+}
+
+.box {
+    height: 100px;
+    width: 100px;
+
+    font-size: 4rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

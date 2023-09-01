@@ -1,0 +1,18 @@
+body {
+    display: grid;
+    place-content: center;
+
+    height: 100vh;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    text-align: center;
+}
