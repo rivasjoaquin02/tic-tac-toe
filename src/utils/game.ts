@@ -54,7 +54,7 @@ function minimax(
 
     let bestVal: number;
     if (maxTurn) {
-        bestVal = -Infinity;
+        bestVal = -1;
 
         const emptyCells = getEmptyCellsIndexes(board);
         emptyCells.forEach((cellIdx) => {
@@ -63,7 +63,7 @@ function minimax(
             board[cellIdx] = "";
         });
     } else {
-        bestVal = Infinity;
+        bestVal = 1;
 
         const emptyCells = getEmptyCellsIndexes(board);
         emptyCells.forEach((cellIdx) => {
@@ -73,44 +73,44 @@ function minimax(
         });
     }
 
-    return bestVal;
+    return bestVal as ReturnType<typeof cost>;
 }
 
-function alpha_beta(
-    board: Board,
-    alpha: number = -Infinity,
-    beta: number = Infinity,
-    maxTurn: boolean = false
-): ReturnType<typeof cost> {
-    const winner = whoWon(board);
-    if (winner) return cost(winner);
+// function alpha_beta(
+//     board: Board,
+//     alpha: number = -Infinity,
+//     beta: number = Infinity,
+//     maxTurn: boolean = false
+// ): ReturnType<typeof cost> {
+//     const winner = whoWon(board);
+//     if (winner) return cost(winner);
 
-    if (maxTurn) {
-        alpha = -Infinity;
+//     if (maxTurn) {
+//         alpha = -Infinity;
 
-        const emptyCells = getEmptyCellsIndexes(board);
-        for (const cellIdx of emptyCells) {
-            board[cellIdx] = AI;
-            alpha = Math.max(alpha, alpha_beta(board, alpha, beta, !maxTurn));
-            board[cellIdx] = "";
+//         const emptyCells = getEmptyCellsIndexes(board);
+//         for (const cellIdx of emptyCells) {
+//             board[cellIdx] = AI;
+//             alpha = Math.max(alpha, alpha_beta(board, alpha, beta, !maxTurn));
+//             board[cellIdx] = "";
 
-            if (beta <= alpha) break;
-        }
-        return alpha;
-    } else {
-        beta = Infinity;
+//             if (beta <= alpha) break;
+//         }
+//         return alpha as ReturnType<typeof cost>;
+//     } else {
+//         beta = Infinity;
 
-        const emptyCells = getEmptyCellsIndexes(board);
-        for (const cellIdx of emptyCells) {
-            board[cellIdx] = PLAYER;
-            beta = Math.max(beta, alpha_beta(board, alpha, beta, !maxTurn));
-            board[cellIdx] = "";
+//         const emptyCells = getEmptyCellsIndexes(board);
+//         for (const cellIdx of emptyCells) {
+//             board[cellIdx] = PLAYER;
+//             beta = Math.max(beta, alpha_beta(board, alpha, beta, !maxTurn));
+//             board[cellIdx] = "";
 
-            if (beta <= alpha) break;
-        }
-        return beta;
-    }
-}
+//             if (beta <= alpha) break;
+//         }
+//         return beta as ReturnType<typeof cost>;
+//     }
+// }
 
 export function generateAiMove(board: Board): number {
     let maxScore = -Infinity;

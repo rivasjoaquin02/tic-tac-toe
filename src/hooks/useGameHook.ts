@@ -44,10 +44,9 @@ function reducer(state: State, action: Action): State {
     }
 }
 
-const INITIAL = {
+const INITIAL: State = {
     board: ["", "", "", "", "", "", "", "", ""],
     winner: undefined,
-    players: undefined,
 };
 
 const init = (): State => {
@@ -60,7 +59,6 @@ const init = (): State => {
     return {
         board,
         winner: undefined,
-        players: undefined,
     };
 };
 
