@@ -1,19 +1,16 @@
-import { useEffect, useReducer } from "react";
-import { whoWon } from "../utils/game";
+import { useReducer } from "react";
+import { generateAiMove, whoWon } from "../utils/game";
 import {
     AI,
     Board,
     FIRST_PLAYER,
     PLAYER,
-    Players,
-    SECOND_PLAYER,
     Winner,
 } from "../constants";
 
 type State = {
     board: Board;
-    winner: Winner;
-    currentPlayer: Players;
+    winner: Winner | undefined;
 };
 
 const ACTIONS = {
@@ -41,7 +38,6 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 board: action.payload,
-                currentPlayer: state.currentPlayer === AI ? PLAYER : AI,
             };
         case ACTIONS.SET_WINNER:
             return {
@@ -56,7 +52,6 @@ function reducer(state: State, action: Action): State {
 const INITIAL = {
     board: ["", "", "", "", "", "", "", "", ""],
     winner: undefined,
-    currentPlayer: FIRST_PLAYER,
 };
 
 const init = (): State => {
@@ -69,32 +64,43 @@ const init = (): State => {
     return {
         board,
         winner: undefined,
-        currentPlayer: SECOND_PLAYER,
     };
 };
 
 export function useGame() {
-    const [{ board, currentPlayer, winner }, dispatch] = useReducer(
-        reducer,
-        INITIAL,
-        init
-    );
+    const [{ board, winner }, dispatch] = useReducer(reducer, INITIAL, init);
 
-    const handleMove = (idx: number) => {
-        if (board[idx] !== "") return;
+    const handlePlayerMove = (playerIdx: number) => {
+        if (board[playerIdx] !== "") return;
 
+        // turn of PLAYER
         const newBoard = [...board];
-        newBoard[idx] = currentPlayer;
-
+        newBoard[playerIdx] = PLAYER;
         dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
+
+        // is he the winner??
+        let winner = whoWon(newBoard);
+        if (winner) {
+            dispatch({ type: ACTIONS.SET_WINNER, payload: winner });
+            return;
+        }
+
+        // turn of AI
+        const aiIdx = generateAiMove(newBoard);
+        console.log(aiIdx);
+        
+        newBoard[aiIdx] = AI;
+        dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
+
+        // is he the winner??
+        winner = whoWon(newBoard);
+        if (winner) {
+            dispatch({ type: ACTIONS.SET_WINNER, payload: winner });
+            return;
+        }
     };
 
     const handleReset = () => dispatch({ type: ACTIONS.RESET });
 
-    useEffect(() => {
-        const winner = whoWon(board);
-        if (winner) dispatch({ type: ACTIONS.SET_WINNER, payload: winner });
-    }, [board]);
-
-    return { board, winner, currentPlayer, handleMove, handleReset };
+    return { board, winner, handleMove: handlePlayerMove, handleReset };
 }

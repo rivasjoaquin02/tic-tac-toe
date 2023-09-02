@@ -1,4 +1,4 @@
-import { AI, Board, PLAYER, Winner } from "../constants";
+import { AI, Board, DRAW, PLAYER, Winner } from "../constants";
 
 const wins = [
     [0, 4, 8],
@@ -15,7 +15,7 @@ export function isGameOver(board: Board): boolean {
     return board.every((box) => box !== "");
 }
 
-export function whoWon(board: Board): Winner {
+export function whoWon(board: Board): Winner | undefined {
     for (let i = 0; i < wins.length; i++) {
         const [a, b, c] = wins[i];
 
@@ -28,5 +28,66 @@ export function whoWon(board: Board): Winner {
         }
     }
 
-    if (isGameOver(board)) return "DRAW";
+    if (isGameOver(board)) return DRAW;
+    return undefined;
+}
+
+function getEmptyCellsIndexes(board: Board): Array<number> {
+    return board.reduce((emptyCells, cell, idx) => {
+        if (cell === "") emptyCells.push(idx);
+        return emptyCells;
+    }, [] as Array<number>);
+}
+
+function cost(winner: Winner): -1 | 0 | 1 {
+    if (winner === DRAW) return 0;
+    if (winner.winner === AI) return 1;
+    return -1;
+}
+
+function minimax(board: Board, maxTurn: boolean = false): -1 | 0 | 1 {
+    const winner = whoWon(board);
+    if (winner) return cost(winner);
+
+    let bestVal: number;
+    if (maxTurn) {
+        bestVal = -Infinity;
+
+        const emptyCells = getEmptyCellsIndexes(board);
+        emptyCells.forEach((cellIdx) => {
+            board[cellIdx] = AI;
+            bestVal = Math.max(bestVal, minimax(board, !maxTurn));
+            board[cellIdx] = "";
+        });
+    } else {
+        bestVal = Infinity;
+
+        const emptyCells = getEmptyCellsIndexes(board);
+        emptyCells.forEach((cellIdx) => {
+            board[cellIdx] = PLAYER;
+            bestVal = Math.min(bestVal, minimax(board, !maxTurn));
+            board[cellIdx] = "";
+        });
+    }
+
+    return bestVal;
+}
+
+export function generateAiMove(board: Board): number {
+    let maxScore = -Infinity;
+    let pos = -1;
+
+    const emptyCells = getEmptyCellsIndexes(board);
+    emptyCells.forEach((cellIdx) => {
+        board[cellIdx] = AI;
+        const scoreInThatCell = minimax(board);
+        board[cellIdx] = "";
+
+        if (scoreInThatCell > maxScore) {
+            maxScore = scoreInThatCell;
+            pos = cellIdx;
+        }
+    });
+
+    return pos;
 }

@@ -4,10 +4,10 @@ import "./board.css";
 type BoardProps = {
     board: Board;
     onMove: (idx: number) => void;
-    winner: Winner;
+    winner?: Winner;
 };
 
-const getColorBox = (winner: Winner, idx: number): string => {
+const getColorBox = (winner: Winner | undefined, idx: number): string => {
     if (winner && winner !== DRAW) {
         const { a, b, c } = winner.pos;
         if (a === idx || b === idx || c === idx) return "red";
