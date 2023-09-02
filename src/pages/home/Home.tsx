@@ -1,57 +1,45 @@
 import { useState } from "react";
 import "./home.css";
-import { Link } from "react-router-dom";
-
-type Player2 = "AI" | "PLAYER";
+import { Options } from "../../components/gameOptions/Options";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-    const [player2, setSelected] = useState<Player2>();
+    const [showOptions, setShowOptions] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <div className="home">
-            <div className="home__player2">
-                <span className="emoji">😎</span>
-                <h1>VS</h1>
-                <div className="home__selector">
-                    <button
-                        type="button"
-                        className="btn-transparent emoji"
-                        onClick={() => setSelected("AI")}
-                    >
-                        🤖
-                    </button>
-                    <button
-                        type="button"
-                        className="btn-transparent emoji"
-                        onClick={() => setSelected("PLAYER")}
-                    >
-                        😎
-                    </button>
-                </div>
-            </div>
+            <button
+                type="button"
+                className="btn-home"
+                onClick={() => navigate("/play")}
+            >
+                <span>🕹️</span>
+                Play
+            </button>
+            <button
+                type="button"
+                className="btn-home"
+                onClick={() => setShowOptions(!showOptions)}
+            >
+                <span>⚙️</span>
+                Options
+            </button>
+            <button
+                type="button"
+                className="btn-home"
+                onClick={() => navigate("/score")}
+            >
+                <span>💯</span>
+                Score
+            </button>
 
-            <div className="home__play">
-                <div
-                    className={`emoji ${
-                        player2 ? "back-forth-animation-left" : ""
-                    }`}
-                >
-                    👉
-                </div>
-                <Link
-                    to={player2 === "AI" ? "/pvai" : "/pvp"}
-                    className={`btn-play`}
-                >
-                    PLAY
-                </Link>
-                <div
-                    className={`emoji ${
-                        player2 ? "back-forth-animation-right" : ""
-                    }`}
-                >
-                    👈
-                </div>
-            </div>
+            {showOptions && (
+                <Options>
+                    <Options.SelectPlayers />
+                    <Options.SelectXO />
+                </Options>
+            )}
         </div>
     );
 }

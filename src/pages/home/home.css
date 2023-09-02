@@ -1,13 +1,11 @@
 .home {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
-    gap: 60px;
+    font-size: 2rem;
 }
 
-.emoji {
-    font-size: 4rem;
-}
 
 .home__player2 {
     display: flex;

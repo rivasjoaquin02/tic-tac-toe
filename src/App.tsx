@@ -1,12 +1,11 @@
-import Board from "./board/Board";
-import { useGame } from "./hooks/useGame";
+import Board from "./components/board/Board";
+import { useGame } from "./hooks/GameProvider";
 
 function App() {
     const { board, winner, handleMove, handleReset } = useGame();
 
     return (
         <div className="app">
-            <h1>Tic Tac Toe</h1>
             <div>
                 <h3>O: AI</h3>
                 <h3>X: Player</h3>

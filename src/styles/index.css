@@ -11,6 +11,8 @@ h3 {
 .root-layout {
     display: grid;
     place-content: center;
+    text-align: center;
+    gap: 30px;
 
     height: 100vh;
     width: 100%;
@@ -34,8 +36,12 @@ h3 {
     height: 120px;
 }
 
-.btn-play {
-    font-size: 4rem;
+.btn-home {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
 
-    
+.emoji {
+    font-size: 4rem;
 }

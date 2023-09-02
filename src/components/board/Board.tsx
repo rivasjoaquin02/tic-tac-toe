@@ -1,4 +1,4 @@
-import { Winner, type Board, DRAW } from "../constants";
+import { Winner, type Board, DRAW } from "../../constants";
 import "./board.css";
 
 type BoardProps = {

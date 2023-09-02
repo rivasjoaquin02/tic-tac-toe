@@ -6,9 +6,12 @@ import "./styles/index.css";
 
 import { RouterProvider } from "react-router-dom";
 import AppRouter from "./routers/AppRouter";
+import { GameProvider } from "./hooks/GameProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        <RouterProvider router={AppRouter} />
+        <GameProvider>
+            <RouterProvider router={AppRouter} />
+        </GameProvider>
     </React.StrictMode>
 );

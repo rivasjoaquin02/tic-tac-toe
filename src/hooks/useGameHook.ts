@@ -1,12 +1,6 @@
 import { useReducer } from "react";
 import { generateAiMove, whoWon } from "../utils/game";
-import {
-    AI,
-    Board,
-    FIRST_PLAYER,
-    PLAYER,
-    Winner,
-} from "../constants";
+import { AI, Board, FIRST_PLAYER, PLAYER, Winner } from "../constants";
 
 type State = {
     board: Board;
@@ -14,6 +8,7 @@ type State = {
 };
 
 const ACTIONS = {
+    SET_PLAYERS: "SET_PLAYERS",
     SET_BOARD: "SET_BOARD",
     SET_WINNER: "SET_WINNER",
     RESET: "RESET",
@@ -52,6 +47,7 @@ function reducer(state: State, action: Action): State {
 const INITIAL = {
     board: ["", "", "", "", "", "", "", "", ""],
     winner: undefined,
+    players: undefined,
 };
 
 const init = (): State => {
@@ -64,10 +60,11 @@ const init = (): State => {
     return {
         board,
         winner: undefined,
+        players: undefined,
     };
 };
 
-export function useGame() {
+export function useGameHook() {
     const [{ board, winner }, dispatch] = useReducer(reducer, INITIAL, init);
 
     const handlePlayerMove = (playerIdx: number) => {
@@ -86,7 +83,7 @@ export function useGame() {
         }
 
         // turn of AI
-        const aiIdx = generateAiMove(newBoard);    
+        const aiIdx = generateAiMove(newBoard);
         newBoard[aiIdx] = AI;
         dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
 
@@ -100,5 +97,10 @@ export function useGame() {
 
     const handleReset = () => dispatch({ type: ACTIONS.RESET });
 
-    return { board, winner, handleMove: handlePlayerMove, handleReset };
+    return {
+        board,
+        winner,
+        handleMove: handlePlayerMove,
+        handleReset,
+    };
 }

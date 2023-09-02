@@ -1,0 +1,32 @@
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-width: min(80vw, 400px);
+
+    position: absolute;
+    background: var(--background-alt);
+
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
+
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.select__players {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.select__players select {
+    font-size: 4rem;
+    padding: 0 20px 0 0;
+}
+
+.select__xo {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
