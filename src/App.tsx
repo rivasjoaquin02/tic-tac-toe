@@ -16,9 +16,7 @@ function App() {
 
             {winner && (
                 <div>
-                    <button type="button" onClick={handleReset}>
-                        Restart
-                    </button>
+                    <input type="reset" onClick={handleReset} />
                 </div>
             )}
         </div>

@@ -1,0 +1,57 @@
+.home {
+    display: flex;
+    flex-direction: column;
+
+    gap: 60px;
+}
+
+.emoji {
+    font-size: 4rem;
+}
+
+.home__player2 {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.home__selector {
+    display: flex;
+    flex-direction: column;
+}
+
+.home__play {
+    display: flex;
+}
+
+.back-forth-animation-left {
+    animation: back-forth-animation-left 0.8s linear infinite;
+}
+
+.back-forth-animation-right {
+    animation: back-forth-animation-right 0.8s linear infinite;
+}
+
+@keyframes back-forth-animation-left {
+    0% {
+        transform: translateX(0); /* Start from the initial position */
+    }
+    50% {
+        transform: translateX(-20px); /* Move left halfway */
+    }
+    100% {
+        transform: translateX(0); /* Return to the initial position */
+    }
+}
+
+@keyframes back-forth-animation-right {
+    0% {
+        transform: translateX(0); /* Start from the initial position */
+    }
+    50% {
+        transform: translateX(20px); /* Move left halfway */
+    }
+    100% {
+        transform: translateX(0); /* Return to the initial position */
+    }
+}

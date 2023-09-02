@@ -1,12 +1,19 @@
 body {
+    margin: 0;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+.root-layout {
     display: grid;
     place-content: center;
 
     height: 100vh;
-}
-
-h1, h2, h3 {
-    margin: 0;
+    width: 100%;
 }
 
 .app {
@@ -15,4 +22,20 @@ h1, h2, h3 {
     gap: 20px;
 
     text-align: center;
+}
+
+.btn-transparent {
+    background-color: transparent;
+    border-radius: 50%;
+
+    padding: 0;
+
+    width: 120px;
+    height: 120px;
+}
+
+.btn-play {
+    font-size: 4rem;
+
+    
 }

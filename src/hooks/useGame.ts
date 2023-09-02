@@ -86,9 +86,7 @@ export function useGame() {
         }
 
         // turn of AI
-        const aiIdx = generateAiMove(newBoard);
-        console.log(aiIdx);
-        
+        const aiIdx = generateAiMove(newBoard);    
         newBoard[aiIdx] = AI;
         dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
 
