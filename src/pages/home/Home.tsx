@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Options } from "../../components/gameOptions/Options";
+import { Options } from "../../components/options/Options";
 
 import "./home.css";
 

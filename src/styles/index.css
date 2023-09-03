@@ -18,12 +18,6 @@ h3 {
     width: 100vw;
 }
 
-.app {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .btn-close {
     display: flex;
     justify-content: center;

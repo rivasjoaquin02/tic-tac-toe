@@ -1,0 +1,13 @@
+.game {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game__menu {
+    display: flex;
+}
+
+.game__menu button {
+    flex: 1;
+}
