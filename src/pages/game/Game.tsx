@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import Board from "./components/board/Board";
-import { useGame } from "./hooks/GameProvider";
+import Board from "../../components/board/Board";
+import { useGame } from "../../store/store";
 
-function App() {
-    const { board, winner, handlePlayerMove, handleReset } = useGame();
+function Game() {
+    const handleReset = useGame((state) => state.handleReset);
+    const winner = useGame((state) => state.winner);
+
     const navigate = useNavigate();
 
     return (
@@ -12,7 +14,7 @@ function App() {
                 👈
             </button>
 
-            <Board board={board} onMove={handlePlayerMove} winner={winner} />
+            <Board />
 
             {winner && (
                 <button type="button" onClick={handleReset}>
@@ -23,4 +25,4 @@ function App() {
     );
 }
 
-export default App;
+export default Game;

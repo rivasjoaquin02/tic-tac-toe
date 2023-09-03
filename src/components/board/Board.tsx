@@ -1,11 +1,6 @@
 import { Winner, type Board, DRAW } from "../../constants";
+import { useGame } from "../../store/store";
 import "./board.css";
-
-type BoardProps = {
-    board: Board;
-    onMove: (idx: number) => void;
-    winner?: Winner;
-};
 
 const getColorBox = (winner: Winner | undefined, idx: number): string => {
     if (winner && winner !== DRAW) {
@@ -15,14 +10,18 @@ const getColorBox = (winner: Winner | undefined, idx: number): string => {
     return "white";
 };
 
-function Board({ board, onMove, winner }: BoardProps) {
+function Board() {
+    const board = useGame((state) => state.board);
+    const winner = useGame((state) => state.winner);
+    const handlePlayerMove = useGame((state) => state.handlePlayerMove);
+
     return (
         <div className="board">
             {board.map((box, idx) => (
                 <button
                     type="button"
                     key={idx}
-                    onClick={() => onMove(idx)}
+                    onClick={() => handlePlayerMove(idx)}
                     className="box"
                     disabled={winner !== undefined}
                     style={{

@@ -2,7 +2,7 @@ import { ChangeEvent, ReactNode, useState } from "react";
 
 import "./options.css";
 import { O, X } from "../../constants";
-import { useGame } from "../../hooks/GameProvider";
+import { useGame } from "../../store/store";
 
 const AI = "AI";
 const HUMAN = "HUMAN";
@@ -10,11 +10,12 @@ const HUMAN = "HUMAN";
 type Opponent = typeof AI | typeof HUMAN;
 
 function SelectOponent() {
-    const { opponent, handleSetOpponentType } = useGame();
+    const opponent = useGame((state) => state.opponent);
+    const setOpponentType = useGame((state) => state.setOpponentType);
 
     const handleSelectOpponent = (e: ChangeEvent<HTMLSelectElement>) => {
         const opponentSelected = e.target.value as Opponent;
-        handleSetOpponentType(opponentSelected);
+        setOpponentType(opponentSelected);
     };
 
     return (
@@ -39,7 +40,8 @@ function SelectOponent() {
 }
 
 function SelectXO() {
-    const { opponent, handleSetOpponentXO } = useGame();
+    const opponent = useGame((state) => state.opponent);
+    const setOpponentXO = useGame((state) => state.setOpponentXO);
 
     return (
         <div className="select__xo">
@@ -48,7 +50,7 @@ function SelectXO() {
                 name="x"
                 id=""
                 value={"✖️"}
-                onClick={() => handleSetOpponentXO(X)}
+                onClick={() => setOpponentXO(X)}
                 disabled={opponent.xo === X}
             />
             <input
@@ -56,7 +58,7 @@ function SelectXO() {
                 name="o"
                 id=""
                 value={"⭕"}
-                onClick={() => handleSetOpponentXO(O)}
+                onClick={() => setOpponentXO(O)}
                 disabled={opponent.xo === O}
             />
         </div>
