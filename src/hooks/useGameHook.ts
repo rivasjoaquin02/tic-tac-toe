@@ -1,15 +1,25 @@
 import { useReducer, useState } from "react";
 import { generateAiMove, whoWon } from "../utils/game";
-import { AI, Board, FIRST_PLAYER, PLAYER, Winner } from "../constants";
+import { Board, Winner } from "../constants";
 
-type State = {
-    board: Board;
-    winner: Winner | undefined;
-    opponent: { type: "AI" | "HUMAN"; xo: "X" | "O" };
-};
+type OpponentType = "AI" | "HUMAN";
+
+type State =
+    | {
+          board: Board;
+          winner: Winner | undefined;
+      } & (
+          | {
+                player: { xo: "X" };
+                opponent: { type: OpponentType; xo: "O" };
+            }
+          | {
+                player: { xo: "O" };
+                opponent: { type: OpponentType; xo: "X" };
+            }
+      );
 
 const ACTIONS = {
-    SET_PLAYERS: "SET_PLAYERS",
     SET_OPPONENT: "SET_OPPONENT",
     SET_BOARD: "SET_BOARD",
     SET_WINNER: "SET_WINNER",
@@ -49,6 +59,7 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 opponent: action.payload,
+                player: { xo: action.payload.xo === "X" ? "O" : "X" },
             };
         case ACTIONS.RESET:
             return init();
@@ -58,6 +69,7 @@ function reducer(state: State, action: Action): State {
 const INITIAL: State = {
     board: ["", "", "", "", "", "", "", "", ""],
     winner: undefined,
+    player: { xo: "X" },
     opponent: { type: "AI", xo: "O" },
 };
 
@@ -65,14 +77,14 @@ const init = (): State => {
     // this generate a random number (0 -> 8)
     const firstPlay = Math.floor((Math.random() * 10) % 9);
 
-    const board: Board = ["", "", "", "", "", "", "", "", ""];
-    board[firstPlay] = "O";
+    const boardWithInitialPlay: Board = ["", "", "", "", "", "", "", "", ""];
+    boardWithInitialPlay[firstPlay] = "O";
 
-    return { ...INITIAL, board };
+    return { ...INITIAL, board: boardWithInitialPlay };
 };
 
 export function useGameHook() {
-    const [{ board, winner, opponent }, dispatch] = useReducer(
+    const [{ board, winner, player, opponent }, dispatch] = useReducer(
         reducer,
         INITIAL,
         init
@@ -80,43 +92,29 @@ export function useGameHook() {
     const [opponentTurn, setOpponentTurn] = useState(opponent.type !== "AI");
 
     const handlePlayerMove = (playerIdx: number) => {
-        if (board[playerIdx] !== "") return;
+        if (board[playerIdx] !== "" || winner) return;
 
-        // turn of PLAYER
+        // Update the Board
         const newBoard = [...board];
-
-        if (opponent.type === "HUMAN") {
-            if (opponentTurn) {
-                newBoard[playerIdx] = opponent.xo;
-                setOpponentTurn(!opponentTurn);
-            } else {
-                newBoard[playerIdx] = opponent.xo === "O" ? "X" : "O";
-                setOpponentTurn(!opponentTurn);
-            }
-        } else {
-            newBoard[playerIdx] = opponent.xo === "O" ? "X" : "O";
-        }
+        newBoard[playerIdx] = opponentTurn ? opponent.xo : player.xo;
+        if (opponent.type === "HUMAN") setOpponentTurn(!opponentTurn);
         dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
 
-        // is he the winner??
-        let winner = whoWon(newBoard);
-        if (winner) {
-            dispatch({ type: ACTIONS.SET_WINNER, payload: winner });
-            return;
-        }
+        // check for the winner
+        const playerWinner = whoWon(newBoard);
+        if (playerWinner)
+            dispatch({ type: ACTIONS.SET_WINNER, payload: playerWinner });
 
-        if (opponent.type === "AI") {
+        if (opponent.type === "AI" && !playerWinner) {
             // turn of AI
             const aiIdx = generateAiMove(newBoard);
-            newBoard[aiIdx] = AI;
+            newBoard[aiIdx] = opponent.xo;
             dispatch({ type: ACTIONS.SET_BOARD, payload: newBoard });
 
-            // is he the winner??
-            winner = whoWon(newBoard);
-            if (winner) {
-                dispatch({ type: ACTIONS.SET_WINNER, payload: winner });
-                return;
-            }
+            // check for the winner
+            const opponentWinner = whoWon(newBoard);
+            if (opponentWinner)
+                dispatch({ type: ACTIONS.SET_WINNER, payload: opponentWinner });
         }
     };
 
@@ -140,9 +138,9 @@ export function useGameHook() {
         board,
         winner,
         opponent,
-        handleMove: handlePlayerMove,
-        handleOpponentType: handleSetOpponentType,
-        handleOpponentXO: handleSetOpponentXO,
+        handlePlayerMove,
+        handleSetOpponentType,
+        handleSetOpponentXO,
         handleReset,
     };
 }

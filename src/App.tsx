@@ -3,7 +3,7 @@ import Board from "./components/board/Board";
 import { useGame } from "./hooks/GameProvider";
 
 function App() {
-    const { board, winner, handleMove, handleReset } = useGame();
+    const { board, winner, handlePlayerMove, handleReset } = useGame();
     const navigate = useNavigate();
 
     return (
@@ -12,7 +12,7 @@ function App() {
                 👈
             </button>
 
-            <Board board={board} onMove={handleMove} winner={winner} />
+            <Board board={board} onMove={handlePlayerMove} winner={winner} />
 
             {winner && (
                 <button type="button" onClick={handleReset}>

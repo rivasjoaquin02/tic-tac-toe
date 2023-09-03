@@ -10,11 +10,11 @@ const HUMAN = "HUMAN";
 type Opponent = typeof AI | typeof HUMAN;
 
 function SelectOponent() {
-    const { opponent, handleOpponentType } = useGame();
+    const { opponent, handleSetOpponentType } = useGame();
 
     const handleSelectOpponent = (e: ChangeEvent<HTMLSelectElement>) => {
         const opponentSelected = e.target.value as Opponent;
-        handleOpponentType(opponentSelected);
+        handleSetOpponentType(opponentSelected);
     };
 
     return (
@@ -39,7 +39,7 @@ function SelectOponent() {
 }
 
 function SelectXO() {
-    const { opponent, handleOpponentXO } = useGame();
+    const { opponent, handleSetOpponentXO } = useGame();
 
     return (
         <div className="select__xo">
@@ -48,7 +48,7 @@ function SelectXO() {
                 name="x"
                 id=""
                 value={"✖️"}
-                onClick={() => handleOpponentXO(X)}
+                onClick={() => handleSetOpponentXO(X)}
                 disabled={opponent.xo === X}
             />
             <input
@@ -56,7 +56,7 @@ function SelectXO() {
                 name="o"
                 id=""
                 value={"⭕"}
-                onClick={() => handleOpponentXO(O)}
+                onClick={() => handleSetOpponentXO(O)}
                 disabled={opponent.xo === O}
             />
         </div>
