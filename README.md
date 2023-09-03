@@ -1,5 +1,6 @@
 # Tic Tac Toe
 
+![Main](screenshots/main.png)
 ![Game](screenshots/game.png)
 
 [Live Demo](https://)
