@@ -3,6 +3,9 @@ export const PLAYER = "X";
 export const FIRST_PLAYER = AI;
 export const SECOND_PLAYER = PLAYER;
 
+export const X = "X"
+export const O = "O"
+
 export const DRAW = "DRAW";
 export type Draw = typeof DRAW;
 

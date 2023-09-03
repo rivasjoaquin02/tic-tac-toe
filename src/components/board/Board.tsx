@@ -20,6 +20,7 @@ function Board({ board, onMove, winner }: BoardProps) {
         <div className="board">
             {board.map((box, idx) => (
                 <button
+                    type="button"
                     key={idx}
                     onClick={() => onMove(idx)}
                     className="box"

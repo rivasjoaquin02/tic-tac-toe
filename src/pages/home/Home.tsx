@@ -1,10 +1,12 @@
 import { useState } from "react";
-import "./home.css";
-import { Options } from "../../components/gameOptions/Options";
 import { useNavigate } from "react-router-dom";
+import { Options } from "../../components/gameOptions/Options";
+
+import "./home.css";
 
 function Home() {
     const [showOptions, setShowOptions] = useState(false);
+    const [showScore, setShowScore] = useState(false);
     const navigate = useNavigate();
 
     return (
@@ -14,7 +16,7 @@ function Home() {
                 className="btn-home"
                 onClick={() => navigate("/play")}
             >
-                <span>🕹️</span>
+                <span className="icon">🕹️</span>
                 Play
             </button>
             <button
@@ -22,21 +24,21 @@ function Home() {
                 className="btn-home"
                 onClick={() => setShowOptions(!showOptions)}
             >
-                <span>⚙️</span>
+                <span className="icon">⚙️</span>
                 Options
             </button>
             <button
                 type="button"
                 className="btn-home"
-                onClick={() => navigate("/score")}
+                onClick={() => setShowScore(!showScore)}
             >
-                <span>💯</span>
+                <span className="icon">💯</span>
                 Score
             </button>
 
             {showOptions && (
                 <Options>
-                    <Options.SelectPlayers />
+                    <Options.SelectOponent />
                     <Options.SelectXO />
                 </Options>
             )}

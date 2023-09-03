@@ -1,20 +1,37 @@
-import { ReactNode } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 
 import "./options.css";
+import { O, X } from "../../constants";
+import { useGame } from "../../hooks/GameProvider";
 
-function SelectPlayers() {
+const AI = "AI";
+const HUMAN = "HUMAN";
+
+type Opponent = typeof AI | typeof HUMAN;
+
+function SelectOponent() {
+    const { opponent, handleOpponentType } = useGame();
+
+    const handleSelectOpponent = (e: ChangeEvent<HTMLSelectElement>) => {
+        const opponentSelected = e.target.value as Opponent;
+        handleOpponentType(opponentSelected);
+    };
+
     return (
-        <div className="select__players">
+        <div className="select-opponent">
             <span className="emoji">😎</span>
 
             <h3>vs</h3>
 
-            <select defaultValue="player">
-                <option value="player">
-                    <span className="emoji">😎</span>
+            <select
+                defaultValue={opponent.type}
+                onChange={handleSelectOpponent}
+            >
+                <option value={HUMAN} className="emoji">
+                    😎
                 </option>
-                <option value="ai">
-                    <span className="emoji">🤖</span>
+                <option value={AI} className="emoji">
+                    🤖
                 </option>
             </select>
         </div>
@@ -22,21 +39,51 @@ function SelectPlayers() {
 }
 
 function SelectXO() {
+    const { opponent, handleOpponentXO } = useGame();
+
     return (
         <div className="select__xo">
-            <input type="button" name="x" id="" value={"✖️"} />
-            <input type="button" name="o" id="" value={"⭕"} />
+            <input
+                type="button"
+                name="x"
+                id=""
+                value={"✖️"}
+                onClick={() => handleOpponentXO(X)}
+                disabled={opponent.xo === X}
+            />
+            <input
+                type="button"
+                name="o"
+                id=""
+                value={"⭕"}
+                onClick={() => handleOpponentXO(O)}
+                disabled={opponent.xo === O}
+            />
         </div>
     );
 }
 
 function OptionsRoot({ children }: { children: ReactNode }) {
-    return <div className="options">{children}</div>;
+    const [close, setClose] = useState(false);
+
+    return (
+        <div className="options" style={{ display: close ? "none" : "" }}>
+            <button
+                type="button"
+                className="btn-close"
+                onClick={() => setClose(true)}
+            >
+                x
+            </button>
+            {children}
+        </div>
+    );
 }
 
 export const Options = OptionsRoot as typeof OptionsRoot & {
-    SelectPlayers: typeof SelectPlayers;
+    SelectOponent: typeof SelectOponent;
     SelectXO: typeof SelectXO;
 };
-Options.SelectPlayers = SelectPlayers;
+
+Options.SelectOponent = SelectOponent;
 Options.SelectXO = SelectXO;

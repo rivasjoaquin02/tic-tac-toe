@@ -1,27 +1,31 @@
 .options {
+    position: absolute;
+
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    max-width: min(80vw, 400px);
-
-    position: absolute;
     background: var(--background-alt);
 
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+
+    box-shadow: 0 0 50px var(--focus);
 
     box-sizing: border-box;
-    padding: 20px;
+    padding: 30px;
 }
 
-.select__players {
+.select-opponent {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
 }
 
-.select__players select {
-    font-size: 4rem;
+.select-opponent select {
+    background: var(--button-base);
+
+    font-size: 3rem;
     padding: 0 20px 0 0;
 }
 
@@ -29,4 +33,10 @@
     display: flex;
     justify-content: center;
     gap: 4px;
+}
+
+.emoji {
+    font-size: 3rem;
+
+    user-select: none;
 }
