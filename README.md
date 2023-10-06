@@ -3,27 +3,25 @@
 [👆 Live Demo](https://tic-tac-toe-ai-nine.vercel.app/)
 
 <img src="screenshots/main.png" align="right"
-     alt="Size Limit logo by Anton Lovchikov" width="120" height="178">
-
+     alt="logo" width="120" height="178">
 
 This is a simple tic-tac-toe game built with React and TypeScript. It includes an AI enemy that uses the `minimax` algorithm to play against the player.
 
 ![Main](screenshots/main.png)
 ![Game](screenshots/game.png)
 
-
 ## Features
 
-- Lets you play tic-tac-toe
-- Indicates when a player has won the game
-- Includes an AI enemy using `minimax` algorithm
+-   Lets you play tic-tac-toe
+-   Indicates when a player has won the game
+-   Includes an AI enemy using `minimax` algorithm
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or pnpm
+-   Node.js (v14 or higher)
+-   npm or pnpm
 
 ### Installation
 
