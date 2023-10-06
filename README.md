@@ -3,7 +3,7 @@
 ![Main](screenshots/main.png)
 ![Game](screenshots/game.png)
 
-[Live Demo](https://)
+[Live Demo](https://tic-tac-toe-ai-nine.vercel.app/)
 
 -   Lets you play tic-tac-toe,
 -   Indicates when a player has won the game
