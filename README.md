@@ -2,9 +2,6 @@
 
 [👆 Live Demo](https://tic-tac-toe-ai-nine.vercel.app/)
 
-<img src="screenshots/main.png" align="right"
-     alt="logo" width="120" height="178">
-
 This is a simple tic-tac-toe game built with React and TypeScript. It includes an AI enemy that uses the `minimax` algorithm to play against the player.
 
 ![Main](screenshots/main.png)
